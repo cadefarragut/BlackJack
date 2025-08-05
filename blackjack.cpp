@@ -5,7 +5,6 @@
 using namespace std;
 
 map<int, int> deck = {
-	{1, 4 },
 	{2, 4 },
 	{3, 4 },
 	{4, 4 },
@@ -41,7 +40,7 @@ int newCard(){
 //	}
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> distr(1, 14);
+	uniform_int_distribution<> distr(2, 14);
 	int card = distr(gen);
 	return card;
 }
@@ -79,7 +78,7 @@ string dealCard(){
 
 
 void getDealerCount(string x){
-	if(x == "1" || x == "2" || x == "3" || x == "4" || x == "5" || x == "6" || x == "7" || x == "8" || x == "9" || x == "10"){
+	if(x == "2" || x == "3" || x == "4" || x == "5" || x == "6" || x == "7" || x == "8" || x == "9" || x == "10"){
 		dealerCount += stoi(x);
 	}
 	else{
@@ -89,7 +88,7 @@ void getDealerCount(string x){
 }
 
 void getPlayerCount(string y){
-	if(y == "1" || y == "2" || y == "3" || y == "4" || y == "5" || y == "6" || y == "7" || y == "8" || y == "9" || y == "10"){
+	if(y == "2" || y == "3" || y == "4" || y == "5" || y == "6" || y == "7" || y == "8" || y == "9" || y == "10"){
 		playerCount += stoi(y);
 	}
 	else {
@@ -99,7 +98,7 @@ void getPlayerCount(string y){
 
 int main(){
 	string x;	
-	cout << "Welcome to BlackJack" <<endl;
+	cout << "Welcome to BlackJack" << endl;
 	cout << "Dealer: ";
 	x = dealCard();
 	getDealerCount(x);
@@ -127,13 +126,45 @@ int main(){
 				return 0;
 			}
 			
-			cout << "1: Hit, 2: Stand" << endl;
+			cout << "1: Hit, 2: Stand ::: " << endl;
 			cin >> y;
 		}
 		if ( y =="2"){
 			x = dealCard();
 			getDealerCount(x);
-			cout << x;
+			cout << x << endl;
+			if( dealerCount == 21){
+				cout << "dealer blackjack" << endl;
+			}
+			else{
+				while(dealerCount < 17){
+					x = dealCard();
+					getDealerCount(x);
+					if(dealerCount == 21){
+						cout << x << endl;
+						cout << "multi-card blackjack" << endl;
+					}
+					else if(dealerCount > 21){
+						cout << x << endl;
+						cout << "Dealer Bust" << endl;
+				}
+					else{
+						cout << x << endl;
+						cout << dealerCount << endl;
+				}
+				}
+			if(playerCount < dealerCount){
+				cout << "you lose" << endl;
+			}
+			else if(playerCount > dealerCount){
+				cout << "you win" << endl;
+			}
+			else{
+				cout << "draw" << endl;
+			}
+				
+				
+			}
 	
 		}
 	
