@@ -36,13 +36,6 @@ int playerCount = 0;
 		
 //}
 
-void aceMath(){
-	if(playerCount + 11 > 21){
-		playerCount -= 10;
-	}
-	
-}
-
 
 int newCard(){
 //	if(isEmpty()){
@@ -103,7 +96,7 @@ void getPlayerCount(string y){
 	}
 	else if (y == "A") {
 		playerCount += 11;
-		aceMath();
+		playerAce = true;
 	}
 	else{
 		playerCount += 10;
@@ -140,11 +133,17 @@ void yourTurn(){
 			getPlayerCount(x);
 			cout << x << endl;			
 			if(playerCount > 21){
+				if(playerAce){
+					playerCount -= 10;
+					playerAce = false;
+					cout << "1: Hit, 2: Stand ::: " << endl;
+					cin >> y;
+					continue;
+				}
 				cout << "Busted" << endl;
 				cout << playerCount << endl;
 				break;
-			}
-			
+			}			
 			cout << "1: Hit, 2: Stand ::: " << endl;
 			cin >> y;
 		}
