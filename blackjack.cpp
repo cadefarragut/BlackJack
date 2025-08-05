@@ -4,21 +4,21 @@
 #include <string>
 using namespace std;
 
-map<string, int> deck = {
-	{"1", 4 },
-	{"2", 4 },
-	{"3", 4 },
-	{"4", 4 },
-	{"5", 4 },
-	{"6", 4 },
-	{"7", 4 },
-	{"8", 4 },
-	{"9", 4 },
-	{"10", 4 },
-	{"J", 4 },
-	{"Q", 4 },
-	{"K", 4 },
-	{"A", 4 }
+map<int, int> deck = {
+	{1, 4 },
+	{2, 4 },
+	{3, 4 },
+	{4, 4 },
+	{5, 4 },
+	{6, 4 },
+	{7, 4 },
+	{8, 4 },
+	{9, 4 },
+	{10, 4 },
+	{11, 4 },
+	{12, 4 },
+	{13, 4 },
+	{14, 4 }
 };
 
 bool isEmpty(){
@@ -31,52 +31,53 @@ bool isEmpty(){
 		
 }
 
-void dealCard(){
-
+int newCard(){
+	if(isEmpty()){
+		return 0;
+	}
 	random_device rd;
 	mt19937 gen(rd());
 	uniform_int_distribution<> distr(1, 14);
-	if (isEmpty()){
-		cout << "Deck is Empty" << endl;
-		return ;
+	int card = distr(gen);
+	return card;
+}
+string dealCard(){
+	
+	string yourCard = "";
+	int card_idx = newCard();
+	while(deck[card_idx == 0]){
+		card_idx = newCard();
 	}
 
-	int card = distr(gen);
-	if( card < 11 ){
-		cout<< to_string(card);
-		deck[to_string(card)]--;
+	if( card_idx < 11 ){
+		yourCard = to_string(card_idx);
+		deck[card_idx]--;
 	}
-	else if (card == 11){
-		cout << "J";
-		deck["J"]--;
+	else if (card_idx == 11){
+		yourCard = "J";
+		deck[11]--;
 	}
-	else if (card == 12){
-		cout << "Q";
-		deck["Q"]--;
+	else if (card_idx == 12){
+		yourCard = "Q";
+		deck[12]--;
 	}
-	else if (card == 13){
-		cout << "K";
-		deck["K"]--;
+	else if (card_idx == 13){
+		yourCard = "K";
+		deck[13]--;
 	}
 	else{
-		cout << "A";
-		deck["A"]--;
+		yourCard = "A";
+		deck[14]--;
 	}
 	
+	return yourCard;
 }
-
 
 int main(){
 	
 	cout << "Welcome to BlackJack" <<endl;
-	cout << "Dealer: "; 
-	dealCard();
-	cout << endl;
-	cout << "You: "; 
-	dealCard(); 
-	cout<< " "; 
-	dealCard();
-	cout << endl;
+	cout << "Dealer: " << dealCard() << endl;
+	cout << "You: " << dealCard() << " " << dealCard() << endl;
 
 
 
