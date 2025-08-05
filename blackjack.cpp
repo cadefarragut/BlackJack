@@ -153,16 +153,6 @@ int main(){
 						cout << dealerCount << endl;
 				}
 				}
-			if(playerCount < dealerCount){
-				cout << "you lose" << endl;
-			}
-			else if(playerCount > dealerCount){
-				cout << "you win" << endl;
-			}
-			else{
-				cout << "draw" << endl;
-			}
-				
 				
 			}
 	
