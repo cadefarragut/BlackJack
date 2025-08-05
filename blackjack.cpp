@@ -4,6 +4,8 @@
 #include <string>
 using namespace std;
 
+bool dealerAce = false;
+bool playerAce = false;
 map<int, int> deck = {
 	{2, 4 },
 	{3, 4 },
@@ -33,6 +35,14 @@ int playerCount = 0;
 //	return true;
 		
 //}
+
+void aceMath(){
+	if(playerCount + 11 > 21){
+		playerCount -= 10;
+	}
+	
+}
+
 
 int newCard(){
 //	if(isEmpty()){
@@ -91,14 +101,18 @@ void getPlayerCount(string y){
 	if(y == "2" || y == "3" || y == "4" || y == "5" || y == "6" || y == "7" || y == "8" || y == "9" || y == "10"){
 		playerCount += stoi(y);
 	}
-	else {
+	else if (y == "A") {
+		playerCount += 11;
+		aceMath();
+	}
+	else{
 		playerCount += 10;
 	}
 }
 
-int main(){
+void newHand(){
+
 	string x;	
-	cout << "Welcome to BlackJack" << endl;
 	cout << "Dealer: ";
 	x = dealCard();
 	getDealerCount(x);
@@ -108,12 +122,16 @@ int main(){
 	getPlayerCount(x);
 	cout << x;
 	cout << " "; 
-	x = dealCard(); 
+	x = dealCard(); 	
 	getPlayerCount(x);
 	cout << x << endl;
+}
 
 
-	
+void yourTurn(){
+
+
+		string x;
 		string y;
 		cout << "1: Hit, 2: Stand ::: ";
 		cin >> y;
@@ -122,8 +140,9 @@ int main(){
 			getPlayerCount(x);
 			cout << x << endl;			
 			if(playerCount > 21){
-				cout << "Busted" << playerCount << endl;
-				return 0;
+				cout << "Busted" << endl;
+				cout << playerCount << endl;
+				break;
 			}
 			
 			cout << "1: Hit, 2: Stand ::: " << endl;
@@ -150,14 +169,23 @@ int main(){
 				}
 					else{
 						cout << x << endl;
-						cout << dealerCount << endl;
 				}
-				}
+			}
 				
 			}
 	
 		}
-	
+
+}
+
+int main(){
+	cout << "Welcome to BlackJack" << endl;
+	newHand();
+	if(playerCount == 21){
+		cout << "BlackJack!" << endl;
+		return 0;
+	}
+	yourTurn();	
 
 
 	return 0;
