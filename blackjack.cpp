@@ -44,21 +44,25 @@ void dealCard(){
 	int card = distr(gen);
 	if( card < 11 ){
 		cout<< to_string(card);
+		deck[to_string(card)]--;
 	}
 	else if (card == 11){
 		cout << "J";
+		deck["J"]--;
 	}
 	else if (card == 12){
 		cout << "Q";
+		deck["Q"]--;
 	}
 	else if (card == 13){
 		cout << "K";
+		deck["K"]--;
 	}
 	else{
 		cout << "A";
+		deck["A"]--;
 	}
 	
-//	deck(to_string(card-1))--;
 }
 
 
