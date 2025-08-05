@@ -25,7 +25,7 @@ map<int, int> deck = {
 int dealerCount = 0;
 int playerCount = 0;
 
-
+string dealer_first_card;
 //bool isEmpty(){
 //	for( const auto& [key, value] : deck) {
 //		if(value != 0){
@@ -84,6 +84,10 @@ void getDealerCount(string x){
 	if(x == "2" || x == "3" || x == "4" || x == "5" || x == "6" || x == "7" || x == "8" || x == "9" || x == "10"){
 		dealerCount += stoi(x);
 	}
+	else if (x == "A") {
+		dealerCount += 11;
+		dealerAce = true;
+	}
 	else{
 		dealerCount += 10;
 	}
@@ -104,7 +108,8 @@ void getPlayerCount(string y){
 }
 
 void newHand(){
-
+	playerCount = 0;
+	dealerCount = 0;
 	string x;	
 	cout << "Dealer: ";
 	x = dealCard();
@@ -118,6 +123,16 @@ void newHand(){
 	x = dealCard(); 	
 	getPlayerCount(x);
 	cout << x << endl;
+
+	dealer_first_card = dealCard();
+	getDealerCount(dealer_first_card);
+	if(dealerCount == 21){
+		cout << "Dealer BlackJack" << endl;
+		cout << "Dealer had a " << dealer_first_card << endl;
+		cout << endl;
+		newHand();
+	}
+
 }
 
 
@@ -136,7 +151,7 @@ void yourTurn(){
 				if(playerAce){
 					playerCount -= 10;
 					playerAce = false;
-					cout << "1: Hit, 2: Stand ::: " << endl;
+					cout << "1: Hit, 2: Stand ::: ";
 					cin >> y;
 					continue;
 				}
@@ -148,13 +163,7 @@ void yourTurn(){
 			cin >> y;
 		}
 		if ( y =="2"){
-			x = dealCard();
-			getDealerCount(x);
-			cout << x << endl;
-			if( dealerCount == 21){
-				cout << "dealer blackjack" << endl;
-			}
-			else{
+			cout << dealer_first_card << endl;
 				while(dealerCount < 17){
 					x = dealCard();
 					getDealerCount(x);
@@ -163,13 +172,17 @@ void yourTurn(){
 						cout << "multi-card blackjack" << endl;
 					}
 					else if(dealerCount > 21){
+						if ( dealerAce ){
+							dealerCount -= 10;
+							dealerAce = false;
+							continue;
+						}
 						cout << x << endl;
 						cout << "Dealer Bust" << endl;
-				}
+					}
 					else{
 						cout << x << endl;
-				}
-			}
+					}
 				
 			}
 	
@@ -184,7 +197,14 @@ int main(){
 		cout << "BlackJack!" << endl;
 		return 0;
 	}
-	yourTurn();	
+	yourTurn();
+
+	cout << "your score : " << playerCount << endl;
+	cout << "dealer score : " << dealerCount << endl;
+
+	if ( dealerCount < playerCount ) cout << "you win" << endl;
+	else if (playerCount < dealerCount && dealerCount < 22) cout << "you lose" << endl;
+	else cout << "push" << endl;
 
 
 	return 0;
