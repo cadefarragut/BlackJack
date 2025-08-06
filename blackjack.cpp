@@ -6,6 +6,12 @@ using namespace std;
 
 bool dealerAce = false;
 bool playerAce = false;
+
+int dealerCount = 0;
+int playerCount = 0;
+
+string dealer_first_card;
+
 map<int, int> deck = {
 	{2, 4 },
 	{3, 4 },
@@ -22,25 +28,22 @@ map<int, int> deck = {
 	{14, 4 }
 };
 
-int dealerCount = 0;
-int playerCount = 0;
-
-string dealer_first_card;
-//bool isEmpty(){
-//	for( const auto& [key, value] : deck) {
-//		if(value != 0){
-//	 	return false;
-//		}
-//	}
-//	return true;
+bool isEmpty(){
+	for( const auto& x : deck) {
+		if(x.second != 0){
+	 	return false;
+		}
+	}
+	return true;
 		
-//}
+}
 
 
 int newCard(){
-//	if(isEmpty()){
-//		return 0;
-//	}
+	if(isEmpty()){
+		cout << "Deck is empty" << endl;
+		return 0;
+	}
 	random_device rd;
 	mt19937 gen(rd());
 	uniform_int_distribution<> distr(2, 14);
@@ -51,29 +54,24 @@ string dealCard(){
 	
 	string yourCard = "";
 	int card_idx = newCard();
-//	while(deck[card_idx == 0]){
-//		card_idx = newCard();
-//	}
-
+	while(deck[card_idx == 0]){
+		card_idx = newCard();
+	}
+  	deck[card_idx]--;
 	if( card_idx < 11 ){
 		yourCard = to_string(card_idx);
-		deck[card_idx]--;
 	}
 	else if (card_idx == 11){
 		yourCard = "J";
-		deck[11]--;
 	}
 	else if (card_idx == 12){
 		yourCard = "Q";
-		deck[12]--;
 	}
 	else if (card_idx == 13){
 		yourCard = "K";
-		deck[13]--;
 	}
 	else{
 		yourCard = "A";
-		deck[14]--;
 	}
 	
 	return yourCard;
@@ -156,10 +154,9 @@ void yourTurn(){
 					continue;
 				}
 				cout << "Busted" << endl;
-				cout << playerCount << endl;
 				break;
 			}			
-			cout << "1: Hit, 2: Stand ::: " << endl;
+			cout << "1: Hit, 2: Stand ::: ";
 			cin >> y;
 		}
 		if ( y =="2"){
@@ -192,20 +189,28 @@ void yourTurn(){
 
 int main(){
 	cout << "Welcome to BlackJack" << endl;
-	newHand();
-	if(playerCount == 21){
-		cout << "BlackJack!" << endl;
-		return 0;
-	}
-	yourTurn();
+	while(!isEmpty()){
+		newHand();
+		if(playerCount == 21){
+			cout << "BlackJack!" << endl;
+			continue;
+		}
 
-	cout << "your score : " << playerCount << endl;
-	cout << "dealer score : " << dealerCount << endl;
+		yourTurn();
 
-	if ( dealerCount < playerCount ) cout << "you win" << endl;
-	else if (playerCount < dealerCount && dealerCount < 22) cout << "you lose" << endl;
-	else cout << "push" << endl;
+		cout << "your score : " << playerCount << endl;
+		cout << "dealer score : " << dealerCount << endl;
 
+		if ( dealerCount < playerCount && playerCount < 22) cout << "you win" << endl;
+		if (playerCount < dealerCount && dealerCount < 22) cout << "you lose" << endl;
+		if (playerCount == dealerCount && dealerCount < 22 && playerCount < 22) cout << "push" << endl;
+		cout << endl;
+	
+		for( const auto x : deck){
+			cout << x.first << x.second <<endl;
+		}
+	} 
 
+	cout << "Deck is empty" << endl;
 	return 0;
 }
